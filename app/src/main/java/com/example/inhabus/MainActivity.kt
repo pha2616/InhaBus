@@ -13,5 +13,7 @@ class MainActivity : AppCompatActivity() {
 
         mTest = findViewById<TextView>(R.id.test)
         mTest.setText(intent.getStringExtra("nickname"))
+
+
     }
 }
