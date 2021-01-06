@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="home_or_school">
+        <item>등교</item>
+        <item>하교</item>
+    </string-array>
+
+    <string-array name="city">
+        <item>신촌</item>
+        <item>강남</item>
+        <item>가양</item>
+        <item>안양</item>
+        <item>일산</item>
+        <item>수원</item>
+        <item>분당</item>
+    </string-array>
+
+    <string-array name="time">
+        <item>08:00</item>
+        <item>17:30</item>
+        <item>18:30</item>
+        <item>19:30</item>
+        <item>20:30</item>
+        <item>21:30</item>
+        <item>22:40</item>
+    </string-array>
+</resources>
