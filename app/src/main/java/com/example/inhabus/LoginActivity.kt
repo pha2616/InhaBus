@@ -1,6 +1,8 @@
 package com.example.inhabus
 
+import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
@@ -48,6 +50,9 @@ class LoginActivity : AppCompatActivity() {
         email_login_button.setOnClickListener {
             signin()
         }
+        signup_btn.setOnClickListener {
+            signup()
+        }
         google_signin_button.setOnClickListener {
             //First step
             //gooleLogin()
@@ -63,6 +68,11 @@ class LoginActivity : AppCompatActivity() {
 
         var task: GetData = GetData()
         task.execute("http://" + IP_ADDRESS + "/getjson.php", "")
+    }
+
+    fun signup(){
+        val intent = Intent(this, SignupActivity::class.java)
+        startActivity(intent)
     }
 
     inner private class GetData : AsyncTask<String?, Void, String?>() {
@@ -148,7 +158,7 @@ class LoginActivity : AppCompatActivity() {
                 var jsonObject: JSONObject = JSONObject(mJsonString)
                 var jsonArray: JSONArray = jsonObject.getJSONArray(TAG_JSON)
 
-                for(i in 0 until (jsonArray.length() - 1)){
+                for(i in 0 until jsonArray.length()){
                     val item: JSONObject = jsonArray.getJSONObject(i)
 
                     val Jnickname: String = item.getString(TAG_NICKNAME)
@@ -170,6 +180,14 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 else{
+                    val dlg: AlertDialog.Builder = AlertDialog.Builder(this@LoginActivity,
+                    android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
+                    dlg.setTitle("Login Fail")
+                    dlg.setMessage("Try again or create new account!")
+                    dlg.setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
+                        startActivity(Intent(this@LoginActivity,LoginActivity::class.java))
+                        finish()})
+                    dlg.show()
                     Log.d("test","Login Fail")
                 }
             } catch(e: java.lang.Exception){
