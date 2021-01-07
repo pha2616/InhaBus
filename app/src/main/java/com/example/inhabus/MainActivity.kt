@@ -6,14 +6,12 @@ import android.util.Log
 import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var mTest: TextView
+    private lateinit var welcomeText: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mTest = findViewById<TextView>(R.id.test)
-        mTest.setText(intent.getStringExtra("nickname"))
-
-
+        welcomeText = findViewById<TextView>(R.id.user_nickname)
+        welcomeText.setText(intent.getStringExtra("nickname")+"님 안녕하세요 :)")
     }
 }
