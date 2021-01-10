@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorPrimaryDark"
+        >
+
+        <CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minDate="08/30/2020"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:paddingTop="30dp"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingRight="25dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="등교/하교"
+                    android:textStyle="bold"
+                    android:textSize="15dp"
+                    android:textColor="@color/cardview_dark_background"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center_horizontal"
+                    />
+
+                <Spinner
+                    android:id="@+id/where_to_go"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:entries="@array/home_or_school"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="25dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="목적지"
+                    android:textStyle="bold"
+                    android:textSize="15dp"
+                    android:textColor="@color/cardview_dark_background"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center_horizontal"
+                    />
+
+                <Spinner
+                    android:id="@+id/city_spinner"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="시간"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:textColor="@color/cardview_dark_background"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            />
+
+        <Spinner
+            android:id="@+id/time_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:entries="@array/time_to_school"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/nickname"
+                android:text="nickname"
+                android:textSize="15sp"
+                android:paddingLeft="25dp"
+                android:paddingTop="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"/>
+            <TextView
+                android:id="@+id/reservation_date"
+                android:text="date"
+                android:textSize="15sp"
+                android:paddingTop="25dp"
+                android:paddingRight="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"/>
+            <TextView
+                android:id="@+id/direction"
+                android:text="direction"
+                android:textSize="15sp"
+                android:paddingTop="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"/>
+            <TextView
+                android:id="@+id/city"
+                android:text="city"
+                android:textSize="15sp"
+                android:paddingTop="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"/>
+            <TextView
+                android:id="@+id/time"
+                android:text="time"
+                android:textSize="15sp"
+                android:paddingTop="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/reservation_button"
+            android:text="@string/bus_registration"
+            android:theme="@style/ButtonStyle"
+            android:background="@drawable/table_background_go_shcool_attr"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="35dp"/>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -5,7 +5,11 @@
         <item>하교</item>
     </string-array>
 
-    <string-array name="city">
+    <string-array name="city_to_school">
+        <item>인하대</item>
+    </string-array>
+
+    <string-array name="city_to_home">
         <item>신촌</item>
         <item>강남</item>
         <item>가양</item>
@@ -15,8 +19,29 @@
         <item>분당</item>
     </string-array>
 
-    <string-array name="time">
+    <string-array name="time_to_school">
         <item>08:00</item>
+    </string-array>
+
+    <string-array name="time_to_home_sincheon">
+        <item>17:30</item>
+        <item>18:30</item>
+        <item>21:30</item>
+        <item>22:40</item>
+    </string-array>
+
+    <string-array name="time_to_home_gangnam">
+        <item>18:30</item>
+        <item>22:40</item>
+    </string-array>
+
+    <string-array name="time_to_home_etc">
+        <item>18:30</item>
+        <item>21:30</item>
+        <item>22:40</item>
+    </string-array>
+
+    <string-array name="time_to_home_ilsan">
         <item>17:30</item>
         <item>18:30</item>
         <item>19:30</item>

@@ -93,7 +93,7 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorLightGray"
+                    android:background="@drawable/qr_background"
                     android:paddingRight="20dp"
                     android:text="탑승 시 Qr 코드를 스캔해주세요."
                     android:textStyle="bold"
