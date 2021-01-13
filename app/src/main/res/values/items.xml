@@ -5,11 +5,7 @@
         <item>하교</item>
     </string-array>
 
-    <string-array name="city_to_school">
-        <item>인하대</item>
-    </string-array>
-
-    <string-array name="city_to_home">
+    <string-array name="city_array">
         <item>신촌</item>
         <item>강남</item>
         <item>가양</item>

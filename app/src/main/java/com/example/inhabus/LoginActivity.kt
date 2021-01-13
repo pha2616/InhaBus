@@ -28,16 +28,10 @@ import java.net.URL
 
 class LoginActivity : AppCompatActivity() {
     private var IP_ADDRESS: String = "192.168.56.1"
-
     private lateinit var mEditemail: EditText
     private lateinit var mEditpasswd: EditText
-    private lateinit var mEditTextNickname: EditText
-    private lateinit var mEditTextEmail: EditText
     private lateinit var mTextViewResult: TextView
-    private var mArrayList = mutableListOf<User>()
     private lateinit var mJsonString: String
-    private lateinit var mEditTextSearchKeyword: EditText
-    private lateinit var mRecyclerView: RecyclerView
     private lateinit var email: String
     private lateinit var passwd: String
     private lateinit var nickname: String
@@ -90,8 +84,13 @@ class LoginActivity : AppCompatActivity() {
                 mTextViewResult.text = errorMessage
             }
             else{
-                mJsonString = result
-                checkUser()
+                if(result!=""){
+                    mJsonString = result
+                    checkUser()
+                }
+                else{
+                    showAlertDialog()
+                }
             }
         }
 
@@ -148,6 +147,18 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        private fun showAlertDialog(){
+            val dlg: AlertDialog.Builder = AlertDialog.Builder(this@LoginActivity,
+                android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
+            dlg.setTitle("Login Fail")
+            dlg.setMessage("Try again or create new account!")
+            dlg.setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
+                startActivity(Intent(this@LoginActivity,LoginActivity::class.java))
+                finish()})
+            dlg.show()
+            Log.d("test","Login Fail")
+        }
+
         private fun checkUser() {
             val TAG_JSON: String = "hyuna"
             val TAG_NICKNAME = "nickname"
@@ -180,15 +191,7 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 else{
-                    val dlg: AlertDialog.Builder = AlertDialog.Builder(this@LoginActivity,
-                    android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
-                    dlg.setTitle("Login Fail")
-                    dlg.setMessage("Try again or create new account!")
-                    dlg.setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
-                        startActivity(Intent(this@LoginActivity,LoginActivity::class.java))
-                        finish()})
-                    dlg.show()
-                    Log.d("test","Login Fail")
+                    showAlertDialog()
                 }
             } catch(e: java.lang.Exception){
                 Log.d("Test", "showResult : ", e)

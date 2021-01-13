@@ -97,9 +97,10 @@
 
     <string name="back">Back</string>
 
-    <string name="bus_registration">버스 예약</string>
-
     <!-- etc -->
+    <string name="bus_registration">버스 예매</string>
+
+    <string name="bus_payment">결제하기</string>
 
     <item name="visible" type="id" />
 

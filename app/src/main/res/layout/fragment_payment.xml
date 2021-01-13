@@ -1,106 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <TextView
+        android:id="@+id/payment_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/colorPrimaryDark"
+        android:layout_height="wrap_content"
+        android:text="결제"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:gravity="center_horizontal"
+        />
+
+    <LinearLayout
+        android:id="@+id/toolbar_division"
+        android:background="@color/colorDivision"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/payment_title"
+        android:orientation="horizontal"></LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bus_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/toolbar_division"
+        android:paddingTop="30dp"
+        android:paddingBottom="30dp"
         >
 
-        <CalendarView
-            android:id="@+id/calendarView"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/logo_layout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minDate="08/30/2020"
-            />
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:src="@drawable/ic_bus"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:paddingTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingRight="25dp"
             >
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/reservation_date_at_payment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingRight="25dp"
-                >
+                android:text="예매 날짜"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:textColor="@color/cardview_dark_background"
+                android:layout_marginTop="10dp"
+                />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="등교/하교"
-                    android:textStyle="bold"
-                    android:textSize="15dp"
-                    android:textColor="@color/cardview_dark_background"
-                    android:layout_marginTop="20dp"
-                    android:layout_gravity="center_horizontal"
-                    />
-
-                <Spinner
-                    android:id="@+id/where_to_go"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/reservation_detail_at_payment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="25dp"
-                >
-
-                <TextView
-                    android:id="@+id/city_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="출발지"
-                    android:textStyle="bold"
-                    android:textSize="15dp"
-                    android:textColor="@color/cardview_dark_background"
-                    android:layout_marginTop="20dp"
-                    android:layout_gravity="center_horizontal"
-                    />
-
-                <Spinner
-                    android:id="@+id/city_spinner"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"/>
-
-            </LinearLayout>
-
+                android:text="예매 상세"
+                android:textStyle="bold"
+                android:textSize="10dp"
+                android:textColor="@color/cardview_dark_background"
+                android:layout_marginTop="10dp"
+                />
         </LinearLayout>
 
         <TextView
+            android:id="@+id/pay_at_payment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="시간"
+            android:paddingLeft="50dp"
+            android:text="2500원"
             android:textStyle="bold"
             android:textSize="15dp"
             android:textColor="@color/cardview_dark_background"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            />
+            android:layout_marginTop="10dp" />
+    </LinearLayout>
 
-        <Spinner
-            android:id="@+id/time_spinner"
+    <LinearLayout
+        android:id="@+id/toolbar_division2"
+        android:background="@color/colorDivision"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@+id/bus_detail"
+        android:orientation="horizontal"></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar_division2"
+        android:orientation="vertical"
+        >
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"/>
+            android:text="결제 방법"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:textColor="@color/cardview_dark_background"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="20dp"
+            />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -153,8 +160,8 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/reservation_button"
-            android:text="@string/bus_registration"
+            android:id="@+id/pay_button"
+            android:text="@string/bus_payment"
             android:theme="@style/ButtonStyle"
             android:background="@drawable/yellow_btn"
             android:layout_width="match_parent"
@@ -163,7 +170,6 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="35dp"/>
-
     </LinearLayout>
 
-</ScrollView>
+</RelativeLayout>
