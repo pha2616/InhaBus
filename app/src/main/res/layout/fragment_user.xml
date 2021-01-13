@@ -108,8 +108,8 @@
                 >
 
                 <TextView
-                    android:id="@+id/nickname"
-                    android:text="nickname"
+                    android:id="@+id/buy_time"
+                    android:text="구매 날짜"
                     android:textSize="15sp"
                     android:paddingTop="20dp"
                     android:layout_width="match_parent"
@@ -117,7 +117,7 @@
                     android:layout_marginBottom="30dp"/>
                 <TextView
                     android:id="@+id/reservation_date"
-                    android:text="date"
+                    android:text="예약 날짜"
                     android:textSize="15sp"
                     android:paddingRight="5dp"
                     android:layout_width="match_parent"
@@ -125,21 +125,21 @@
                     android:layout_marginBottom="30dp"/>
                 <TextView
                     android:id="@+id/direction"
-                    android:text="direction"
+                    android:text="등/하교"
                     android:textSize="15sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="30dp"/>
                 <TextView
                     android:id="@+id/city"
-                    android:text="city"
+                    android:text="도시"
                     android:textSize="15sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="30dp"/>
                 <TextView
                     android:id="@+id/time"
-                    android:text="time"
+                    android:text="시간"
                     android:textSize="15sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
