@@ -1,23 +1,18 @@
 package com.example.inhabus
 
 import android.app.AlertDialog
-import android.app.ProgressDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.EditText
-import android.widget.Toast
-import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -32,10 +27,14 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var mEditpasswd: EditText
     private lateinit var mTextViewResult: TextView
     private lateinit var mJsonString: String
-    private lateinit var email: String
-    private lateinit var passwd: String
-    private lateinit var nickname: String
+    private var email: String = ""
+    private var passwd: String = ""
+    private var nickname: String = ""
+    private lateinit var input_nickname: String
+    private lateinit var found_passwd: String
     private var isUser: Boolean = false
+    private var isFindingPasswd: Boolean = false
+    private var isfound_passwd: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,12 +43,12 @@ class LoginActivity : AppCompatActivity() {
         email_login_button.setOnClickListener {
             signin()
         }
-        signup_btn.setOnClickListener {
+        signup_button.setOnClickListener {
             signup()
         }
-        google_signin_button.setOnClickListener {
-            //First step
-            //gooleLogin()
+        find_passwd_button.setOnClickListener {
+            isFindingPasswd = true
+            find_passwd()
         }
     }
 
@@ -67,6 +66,18 @@ class LoginActivity : AppCompatActivity() {
     fun signup(){
         val intent = Intent(this, SignupActivity::class.java)
         startActivity(intent)
+    }
+
+    fun find_passwd(){
+        val vi = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val find_passwd_layout = vi.inflate(R.layout.dialog_findpasswd, null) as LinearLayout
+
+        AlertDialog.Builder(this).setTitle("닉네임을 입력하세요").setView(find_passwd_layout)
+            .setPositiveButton("확인", DialogInterface.OnClickListener(){ dialogInterface: DialogInterface, i: Int ->
+                input_nickname = (find_passwd_layout.findViewById(R.id.nickname_id) as EditText).text.toString()
+                var task: GetData = GetData()
+                task.execute("http://" + IP_ADDRESS + "/getjson.php", "")
+            }).show()
     }
 
     inner private class GetData : AsyncTask<String?, Void, String?>() {
@@ -89,7 +100,7 @@ class LoginActivity : AppCompatActivity() {
                     checkUser()
                 }
                 else{
-                    showAlertDialog()
+                    showAlertDialog("Login Fail", "Try again or create new account!")
                 }
             }
         }
@@ -142,21 +153,19 @@ class LoginActivity : AppCompatActivity() {
             } catch(e: Exception){
                 Log.d("Test","GetData : Error ",e)
                 errorMessage = e.toString()
-
                 return null
             }
         }
 
-        private fun showAlertDialog(){
+        private fun showAlertDialog(title: String, message: String){
             val dlg: AlertDialog.Builder = AlertDialog.Builder(this@LoginActivity,
                 android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
-            dlg.setTitle("Login Fail")
-            dlg.setMessage("Try again or create new account!")
+            dlg.setTitle(title)
+            dlg.setMessage(message)
             dlg.setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
                 startActivity(Intent(this@LoginActivity,LoginActivity::class.java))
                 finish()})
             dlg.show()
-            Log.d("test","Login Fail")
         }
 
         private fun checkUser() {
@@ -178,8 +187,15 @@ class LoginActivity : AppCompatActivity() {
 
                     nickname = Jnickname
 
-                    if(email == Jemail && passwd == Jpasswd){
+                    //find user
+                    if(!isFindingPasswd && email == Jemail && passwd == Jpasswd){
                         isUser = true
+                        break
+                    }
+                    //find password
+                    if(isFindingPasswd && input_nickname == Jnickname){
+                        isfound_passwd = true
+                        found_passwd = Jpasswd
                         break
                     }
                 }
@@ -190,9 +206,19 @@ class LoginActivity : AppCompatActivity() {
                     intent.putExtra("nickname",nickname)
                     startActivity(intent)
                 }
-                else{
-                    showAlertDialog()
+                else if(!isUser && !isFindingPasswd){
+                    showAlertDialog("Login Fail", "Try again or create new account!")
                 }
+
+                //비번을 찾았으면
+                if(isfound_passwd){
+                    showAlertDialog("Password Found", found_passwd)
+                }
+                else if(!isfound_passwd && !isUser){
+                    showAlertDialog("No Account", "해당 닉네임과 일치하는 계정이 없습니다")
+                }
+
+                isFindingPasswd = false
             } catch(e: java.lang.Exception){
                 Log.d("Test", "showResult : ", e)
             }

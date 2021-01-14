@@ -21,7 +21,7 @@
 
     <string name="signin_email">Signin by email</string>
 
-    <string name="signin_google">Google login</string>
+    <string name="find_passwd_btn">FIND PASSWORD</string>
 
     <string name="signup">Sign Up</string>
 

@@ -32,18 +32,36 @@
             android:textSize="28dp"
             android:gravity="center_horizontal"
             />
-        <com.google.android.material.textfield.TextInputLayout
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/nickname_edittext"
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/nickname"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <EditText
+                    android:id="@+id/nickname_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/nickname"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/nickname_check_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="중복확인"
+                />
+
+        </LinearLayout>
+
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -51,7 +69,6 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp">
             <EditText
-                android:inputType="textPassword"
                 android:id="@+id/email_edittext_signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -77,7 +94,7 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
             <Button
-                android:id="@+id/signup_btn"
+                android:id="@+id/signup_button"
                 android:text="@string/signup"
                 android:theme="@style/ButtonStyle"
                 android:background="@drawable/dark_yellow_btn"

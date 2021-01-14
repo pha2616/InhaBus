@@ -8,8 +8,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import org.json.JSONArray
-import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.DataOutputStream
 import java.io.InputStream
@@ -30,7 +28,11 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
 
-        signup_btn.setOnClickListener {
+        nickname_check_btn.setOnClickListener {
+
+        }
+
+        signup_button.setOnClickListener {
             signup()
         }
 
