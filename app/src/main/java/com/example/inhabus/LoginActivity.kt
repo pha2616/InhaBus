@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -59,6 +58,15 @@ class LoginActivity : AppCompatActivity() {
         email = mEditemail.text.toString()
         passwd = mEditpasswd.text.toString()
 
+        if(email == ""){
+            showAlertDialog("FAIL","이메일을 입력하세요")
+            return
+        }
+        else if(passwd == ""){
+            showAlertDialog("FAIL","비밀번호를 입력하세요")
+            return
+        }
+
         var task: GetData = GetData()
         task.execute("http://" + IP_ADDRESS + "/getjson.php", "")
     }
@@ -70,7 +78,7 @@ class LoginActivity : AppCompatActivity() {
 
     fun find_passwd(){
         val vi = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val find_passwd_layout = vi.inflate(R.layout.dialog_findpasswd, null) as LinearLayout
+        val find_passwd_layout = vi.inflate(R.layout.dialog_nickname, null) as LinearLayout
 
         AlertDialog.Builder(this).setTitle("닉네임을 입력하세요").setView(find_passwd_layout)
             .setPositiveButton("확인", DialogInterface.OnClickListener(){ dialogInterface: DialogInterface, i: Int ->
@@ -78,6 +86,17 @@ class LoginActivity : AppCompatActivity() {
                 var task: GetData = GetData()
                 task.execute("http://" + IP_ADDRESS + "/getjson.php", "")
             }).show()
+    }
+
+    fun showAlertDialog(title: String, message: String){
+        val dlg: AlertDialog.Builder = AlertDialog.Builder(this@LoginActivity,
+            android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
+        dlg.setTitle(title)
+        dlg.setMessage(message)
+        dlg.setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
+            startActivity(Intent(this@LoginActivity,LoginActivity::class.java))
+            finish()})
+        dlg.show()
     }
 
     inner private class GetData : AsyncTask<String?, Void, String?>() {
@@ -157,17 +176,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        private fun showAlertDialog(title: String, message: String){
-            val dlg: AlertDialog.Builder = AlertDialog.Builder(this@LoginActivity,
-                android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
-            dlg.setTitle(title)
-            dlg.setMessage(message)
-            dlg.setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
-                startActivity(Intent(this@LoginActivity,LoginActivity::class.java))
-                finish()})
-            dlg.show()
-        }
-
         private fun checkUser() {
             val TAG_JSON: String = "hyuna"
             val TAG_NICKNAME = "nickname"
@@ -205,19 +213,20 @@ class LoginActivity : AppCompatActivity() {
                     val intent = Intent(this@LoginActivity,MainActivity::class.java)
                     intent.putExtra("nickname",nickname)
                     startActivity(intent)
+                    return
                 }
-                else if(!isUser && !isFindingPasswd){
+                if(!isFindingPasswd){
                     showAlertDialog("Login Fail", "Try again or create new account!")
+                    return
                 }
 
                 //비번을 찾았으면
                 if(isfound_passwd){
                     showAlertDialog("Password Found", found_passwd)
-                }
-                else if(!isfound_passwd && !isUser){
-                    showAlertDialog("No Account", "해당 닉네임과 일치하는 계정이 없습니다")
+                    return
                 }
 
+                showAlertDialog("No Account", "해당 닉네임과 일치하는 계정이 없습니다")
                 isFindingPasswd = false
             } catch(e: java.lang.Exception){
                 Log.d("Test", "showResult : ", e)
