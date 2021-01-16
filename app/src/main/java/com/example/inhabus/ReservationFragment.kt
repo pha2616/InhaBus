@@ -5,7 +5,9 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
+import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,15 +16,30 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_reservation.*
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.DataOutputStream
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.lang.StringBuilder
+import java.net.HttpURLConnection
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ReservationFragment: Fragment() {
+    private var IP_ADDRESS: String = "192.168.56.1"
+    private lateinit var mTextViewResult: TextView
+    private lateinit var mJsonString: String
+
     lateinit var calendar_view: CalendarView
     lateinit var direction_spinner: Spinner
     lateinit var city_spinner: Spinner
     lateinit var time_spinner: Spinner
     lateinit var selected_date: String
+    var selected_direction = "school"
+    var selected_city = "sincheon"
     var bundle: Bundle = Bundle()
     var go_to_school: Boolean = true
     var possible_day: Boolean = true
@@ -49,7 +66,7 @@ class ReservationFragment: Fragment() {
             calendar.set(i,i2,i3)
             if(calendar.get(Calendar.DAY_OF_WEEK) == 1 || calendar.get(Calendar.DAY_OF_WEEK) == 7){
                 possible_day = false
-                showAlertDialog()
+                showAlertDialog("IMPOSSIBLE DAY","choose another day")
             }
             else{
                 possible_day = true
@@ -73,10 +90,12 @@ class ReservationFragment: Fragment() {
                 when (direction_spinner.getItemAtPosition(p2)) {
                     "등교" -> {
                         city_info.text = "출발지"
+                        selected_direction = "school"
                         go_to_school = true
                     }
                     "하교" -> {
                         city_info.text = "목적지"
+                        selected_direction = "home"
                         go_to_school = false
                     }
                 }
@@ -100,18 +119,27 @@ class ReservationFragment: Fragment() {
                     city.text = res.getStringArray(R.array.city_array).get(p2)
                     when(city_spinner.getItemAtPosition(p2)){
                         "신촌" -> {
+                            selected_city = "sincheon"
                             var adapter_sincheon_time = ArrayAdapter<String>(activity!!.baseContext, android.R.layout.simple_spinner_dropdown_item, res.getStringArray(R.array.time_to_home_sincheon))
                             time_spinner.adapter = adapter_sincheon_time
                         }
                         "강남" -> {
+                            selected_city = "gangnam"
                             var adapter_gangnam_time = ArrayAdapter<String>(activity!!.baseContext, android.R.layout.simple_spinner_dropdown_item, res.getStringArray(R.array.time_to_home_gangnam))
                             time_spinner.adapter = adapter_gangnam_time
                         }
                         "가양","안양","수원","분당" -> {
                             var adapter_etc_time = ArrayAdapter<String>(activity!!.baseContext, android.R.layout.simple_spinner_dropdown_item, res.getStringArray(R.array.time_to_home_etc))
                             time_spinner.adapter = adapter_etc_time
+                            when(city_spinner.getItemAtPosition(p2)){
+                                "가양" -> selected_city = "gayang"
+                                "안양" -> selected_city = "anyang"
+                                "수원" -> selected_city = "suwon"
+                                "분당" -> selected_city = "bundang"
+                            }
                         }
                         "일산" -> {
+                            selected_city = "ilsan"
                             var adapter_ilsan_time = ArrayAdapter<String>(activity!!.baseContext, android.R.layout.simple_spinner_dropdown_item, res.getStringArray(R.array.time_to_home_ilsan))
                             time_spinner.adapter = adapter_ilsan_time
                         }
@@ -154,41 +182,16 @@ class ReservationFragment: Fragment() {
 
         reservation_btn.setOnClickListener {
             if(possible_day){
-                if(direction.text.toString() == "등교"){
-                    bundle.putString("direction","school")
-                }
-                else if(direction.text.toString() == "하교"){
-                    bundle.putString("direction","home")
-                }
-
-                if(city.text.toString() == "신촌"){
-                    bundle.putString("city","sincheon")
-                }
-                else if(city.text.toString() == "강남"){
-                    bundle.putString("city","gangnam")
-                }
-                else if(city.text.toString() == "가양"){
-                    bundle.putString("city","gayang")
-                }
-                else if(city.text.toString() == "안양"){
-                    bundle.putString("city","anyang")
-                }
-                else if(city.text.toString() == "일산"){
-                    bundle.putString("city","ilsan")
-                }
-                else if(city.text.toString() == "수원"){
-                    bundle.putString("city","suwon")
-                }
-                else if(city.text.toString() == "분당"){
-                    bundle.putString("city","bundang")
-                }
-
+                bundle.putString("direction",selected_direction)
+                bundle.putString("city",selected_city)
                 bundle.putString("date",reservation_date.text.toString())
                 bundle.putString("time",time.text.toString())
-               replaceFragment(PaymentFragment())
+
+                var task: ReservationFragment.GetData = GetData()
+                task.execute("http://" + IP_ADDRESS + "/checkQuantity.php", selected_direction, selected_city, time.text.toString(), reservation_date.text.toString())
             }
             else{
-                showAlertDialog()
+                showAlertDialog("IMPOSSIBLE DAY","choose another day")
             }
         }
 
@@ -205,21 +208,122 @@ class ReservationFragment: Fragment() {
         super.onResume()
     }
 
-    private fun showAlertDialog(){
+    private fun showAlertDialog(title: String, message: String){
         val dlg: AlertDialog.Builder = AlertDialog.Builder(activity!!,
             android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth)
-        dlg.setTitle("IMPOSSIBLE DAY")
-        dlg.setMessage("choose another day")
+        dlg.setTitle(title)
+        dlg.setMessage(message)
         dlg.setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
             dialog.dismiss()})
         dlg.show()
     }
 
-    private fun replaceFragment(fragment: Fragment){
-        val fragmentTransaction: FragmentTransaction = fragmentManager!!.beginTransaction()
-        fragmentTransaction.replace(R.id.main_content, fragment)
-        fragmentTransaction.addToBackStack(null)
-        fragment.arguments = bundle
-        fragmentTransaction.commit()
+    inner private class GetData : AsyncTask<String?, Void, String?>() {
+        //lateinit var progressDialog: ProgressDialog
+        var errorMessage: String = "Failed!"
+
+        protected override fun onPreExecute(){
+            super.onPreExecute()
+        }
+
+        protected override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+
+            if(result == null){
+                mTextViewResult.text = errorMessage
+            }
+            else{
+                if(result!=""){
+                    mJsonString = result
+                    checkQuantity()
+                }
+            }
+        }
+
+        override fun doInBackground(vararg p0: String?): String? {
+            var serverURL: String? = p0[0]
+            var direction: String? = p0[1]
+            var city: String? = p0[2]
+            var time: String? = p0[3]
+            var date: String? = p0[4]
+            var postParameters: String? = "direction=" + direction + "&city=" + city + "&time=" + time + "&date=" + date
+
+            try{
+                val url: URL = URL(serverURL)
+                val httpURLConnection: HttpURLConnection = url.openConnection() as HttpURLConnection
+
+                httpURLConnection.readTimeout = 5000
+                httpURLConnection.connectTimeout = 5000
+                httpURLConnection.requestMethod = "POST"
+                httpURLConnection.doInput = true
+                httpURLConnection.connect()
+
+                val outputStream = DataOutputStream(httpURLConnection.outputStream)
+                outputStream.writeBytes(postParameters)
+                outputStream.flush()
+                outputStream.close()
+
+                var responseStatusCode: Int = httpURLConnection.responseCode
+                Log.d("Test", "response code - " + responseStatusCode)
+
+                val inputStream: InputStream
+                if(responseStatusCode == HttpURLConnection.HTTP_OK){
+                    inputStream = httpURLConnection.inputStream
+                }
+                else{
+                    inputStream = httpURLConnection.errorStream
+                }
+
+                val inputStreamReader: InputStreamReader = InputStreamReader(inputStream,"UTF-8")
+                val bufferedReader: BufferedReader = BufferedReader(inputStreamReader)
+
+                val sb = StringBuilder()
+                var line: String? = null
+
+                line = bufferedReader.readLine()
+                while(line != null){
+                    sb.append(line)
+                    line = bufferedReader.readLine()
+                }
+
+                bufferedReader.close()
+
+                return sb.toString().trim()
+            } catch(e: Exception){
+                Log.d("Test","GetData : Error ",e)
+                errorMessage = e.toString()
+                return null
+            }
+        }
+
+        private fun checkQuantity() {
+            val TAG_JSON: String = "hyuna"
+            val TAG_QUANTITY= "quantity_left"
+
+            try{
+                var jsonObject: JSONObject = JSONObject(mJsonString)
+                var jsonArray: JSONArray = jsonObject.getJSONArray(TAG_JSON)
+
+                val item: JSONObject = jsonArray.getJSONObject(0)
+
+                val Jquantity: Int = item.getInt(TAG_QUANTITY)
+                if(Jquantity == 0){
+                    showAlertDialog("IMPOSSIBLE BUS","매진되었습니다")
+                }
+                else{
+                    replaceFragment(PaymentFragment())
+                }
+            } catch(e: java.lang.Exception){
+                Log.d("Test", "showResult : ", e)
+            }
+        }
+
+        private fun replaceFragment(fragment: Fragment){
+            val fragmentTransaction: FragmentTransaction = fragmentManager!!.beginTransaction()
+            fragmentTransaction.replace(R.id.main_content, fragment)
+            fragmentTransaction.addToBackStack(null)
+            fragment.arguments = bundle
+            fragmentTransaction.commit()
+        }
     }
 }

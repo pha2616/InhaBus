@@ -155,7 +155,7 @@ class UserFragment : Fragment() {
                 var jsonObject: JSONObject = JSONObject(mJsonString)
                 var jsonArray: JSONArray = jsonObject.getJSONArray(TAG_JSON)
 
-                val item: JSONObject = jsonArray.getJSONObject(0)
+                val item: JSONObject = jsonArray.getJSONObject(jsonArray.length() - 1)
 
                 buy_time.text = "구매 날짜: " + item.getString(TAG_SUBDATE)
                 reservation_date.text = "예약 날짜: " + item.getString(TAG_DATE)

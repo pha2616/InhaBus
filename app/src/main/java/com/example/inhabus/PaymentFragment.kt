@@ -61,10 +61,7 @@ class PaymentFragment: Fragment() {
         val alarmManager = activity!!.baseContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         val calendar = Calendar.getInstance()
-//        val str_date = arguments!!.getString("date") + "07:00:00"
-//        val format = SimpleDateFormat("yyyy-MM-ddHH:mm:ss")
-//        val alarm_date = format.parse(str_date)
-        val str_date = "2021-01-1411:49:00"
+        val str_date = arguments!!.getString("date") + "07:00:00"
         val format = SimpleDateFormat("yyyy-MM-ddHH:mm:ss")
         val alarm_date = format.parse(str_date)
 
