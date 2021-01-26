@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.inhabus.navigation.AlarmFragment
 import com.example.inhabus.navigation.HomeFragment
-import com.example.inhabus.navigation.GridFragment
+import com.example.inhabus.navigation.SearchFragment
 import com.example.inhabus.navigation.UserFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 return true
             }
             R.id.action_search ->{
-                var gridFragment = GridFragment()
+                var gridFragment = SearchFragment()
                 gridFragment.arguments = bundle
                 supportFragmentManager.beginTransaction().replace(R.id.main_content,gridFragment).commit()
                 return true
