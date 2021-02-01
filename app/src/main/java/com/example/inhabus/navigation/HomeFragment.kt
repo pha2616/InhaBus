@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.example.inhabus.CreateQRFragment
 import com.example.inhabus.R
 import com.example.inhabus.ReservationFragment
 import com.example.inhabus.TimetableFragment
@@ -20,6 +21,7 @@ class HomeFragment : Fragment() {
 
         var timetable_btn: Button = view.findViewById(R.id.bus_timetable_btn)
         var reservation_btn: Button = view.findViewById(R.id.bus_reservation_btn)
+        var qr_btn: Button = view.findViewById(R.id.qr_btn)
 
         bundle.putString("nickname",arguments!!.getString("nickname"))
 
@@ -29,6 +31,10 @@ class HomeFragment : Fragment() {
 
         reservation_btn.setOnClickListener {
             replaceFragment(ReservationFragment())
+        }
+
+        qr_btn.setOnClickListener {
+            replaceFragment(CreateQRFragment())
         }
 
         return view
