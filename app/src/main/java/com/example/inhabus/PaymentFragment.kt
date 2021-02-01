@@ -31,8 +31,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class PaymentFragment: Fragment() {
-    private var IP_ADDRESS: String = "192.168.56.1"
-    private lateinit var mJsonString: String
+    private var IP_ADDRESS: String = "192.168.219.107"
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = LayoutInflater.from(activity).inflate(R.layout.fragment_payment,container,false)
 

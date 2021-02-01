@@ -34,9 +34,8 @@ import java.net.URL
 
 class AlarmFragment : Fragment() {
     var bundle: Bundle = Bundle()
-    private var IP_ADDRESS: String = "192.168.56.1"
+    private var IP_ADDRESS: String = "192.168.219.107"
     private lateinit var mJsonString: String
-    private lateinit var mTextViewResult: TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = LayoutInflater.from(activity).inflate(R.layout.fragment_alarm,container,false)
@@ -61,7 +60,6 @@ class AlarmFragment : Fragment() {
             super.onPostExecute(result)
 
             if(result == null){
-                mTextViewResult.text = errorMessage
             }
             else{
                 if(result!=""){

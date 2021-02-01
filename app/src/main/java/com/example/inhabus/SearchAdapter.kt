@@ -1,5 +1,6 @@
 package com.example.inhabus
 
+import android.app.Activity
 import android.content.Context
 import android.text.Layout
 import android.view.LayoutInflater
@@ -8,13 +9,18 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
+import com.example.inhabus.navigation.HomeFragment
 
-class SearchAdapter(list: List<Button>, context: Context): BaseAdapter() {
+class SearchAdapter(list: List<SearchList>, context: Context): BaseAdapter() {
     private lateinit var context: Context
-    private lateinit var list: List<Button>
+    private lateinit var list: List<SearchList>
     private lateinit var inflate: LayoutInflater
-    private lateinit var viewHolder: ViewHolder
 
     init {
         this.list = list
@@ -23,17 +29,12 @@ class SearchAdapter(list: List<Button>, context: Context): BaseAdapter() {
     }
 
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View? {
-        var convertView: View? = p1
-        if(convertView == null){
-            convertView = inflate.inflate(R.layout.search_list, null)
-            viewHolder = ViewHolder()
-            viewHolder.label = convertView.findViewById(R.id.label) as Button
-
-            convertView.setTag(viewHolder)
-        }else{
-            viewHolder = convertView.getTag() as ViewHolder
+        var convertView = inflate.inflate(R.layout.search_list, null)
+        var item_btn = convertView!!.findViewById<Button>(R.id.search_item)
+        item_btn.text = list[p0].search
+        item_btn.setOnClickListener {
+            replaceFragment(RouteFragment())
         }
-        viewHolder.label = list[p0]
         return convertView
     }
 
@@ -49,7 +50,10 @@ class SearchAdapter(list: List<Button>, context: Context): BaseAdapter() {
         return list.size
     }
 
-    class ViewHolder{
-        public lateinit var label: Button
+    private fun replaceFragment(fragment: Fragment){
+        val fragmentTransaction: FragmentTransaction = (context as AppCompatActivity).supportFragmentManager!!.beginTransaction()
+        fragmentTransaction.replace(R.id.main_content, fragment)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
     }
 }

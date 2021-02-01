@@ -21,10 +21,9 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 class LoginActivity : AppCompatActivity() {
-    private var IP_ADDRESS: String = "192.168.56.1"
+    private var IP_ADDRESS: String = "192.168.219.107"
     private lateinit var mEditemail: EditText
     private lateinit var mEditpasswd: EditText
-    private lateinit var mTextViewResult: TextView
     private lateinit var mJsonString: String
     private var email: String = ""
     private var passwd: String = ""
@@ -111,7 +110,6 @@ class LoginActivity : AppCompatActivity() {
             super.onPostExecute(result)
 
             if(result == null){
-                mTextViewResult.text = errorMessage
             }
             else{
                 if(result!=""){

@@ -20,13 +20,11 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 class SignupActivity : AppCompatActivity() {
-    private var IP_ADDRESS: String = "192.168.56.1"
+    private var IP_ADDRESS: String = "192.168.219.107"
     private lateinit var mJsonString: String
-
     private lateinit var mEditTextNickname: EditText
     private lateinit var mEditTextEmail: EditText
     private lateinit var mEditTextPasswd: EditText
-
     private var email: String? = ""
     private var passwd: String? = ""
     private var nickname: String = ""

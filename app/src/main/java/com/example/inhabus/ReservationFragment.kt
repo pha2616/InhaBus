@@ -30,9 +30,7 @@ import java.util.*
 
 class ReservationFragment: Fragment() {
     private var IP_ADDRESS: String = "192.168.56.1"
-    private lateinit var mTextViewResult: TextView
     private lateinit var mJsonString: String
-
     lateinit var calendar_view: CalendarView
     lateinit var direction_spinner: Spinner
     lateinit var city_spinner: Spinner
@@ -230,7 +228,6 @@ class ReservationFragment: Fragment() {
             super.onPostExecute(result)
 
             if(result == null){
-                mTextViewResult.text = errorMessage
             }
             else{
                 if(result!=""){

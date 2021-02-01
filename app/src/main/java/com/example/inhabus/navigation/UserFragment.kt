@@ -30,9 +30,8 @@ import java.net.URL
 import java.util.*
 
 class UserFragment : Fragment() {
-    private var IP_ADDRESS: String = "192.168.56.1"
+    private var IP_ADDRESS: String = "192.168.219.107"
     private lateinit var mJsonString: String
-    private lateinit var mTextViewResult: TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = LayoutInflater.from(activity).inflate(R.layout.fragment_user,container,false)
@@ -66,7 +65,6 @@ class UserFragment : Fragment() {
             super.onPostExecute(result)
 
             if(result == null){
-                mTextViewResult.text = errorMessage
             }
             else{
                 if(result!=""){
