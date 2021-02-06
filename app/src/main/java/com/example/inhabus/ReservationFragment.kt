@@ -29,7 +29,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ReservationFragment: Fragment() {
-    private var IP_ADDRESS: String = "192.168.56.1"
+    private var IP_ADDRESS: String = "192.168.219.107"
     private lateinit var mJsonString: String
     lateinit var calendar_view: CalendarView
     lateinit var direction_spinner: Spinner
